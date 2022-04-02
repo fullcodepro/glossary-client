@@ -1,0 +1,15 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+/* body .container {
+    background: #1a63e9;
+    background: linear-gradient(to right, #3782f3, #59caff)
+} */
+
+.bg {
+    background-image: url('https://blog.comparasoftware.com/wp-content/uploads/2020/10/Gestion_de_inventarios.png');
+    background-position: center center;
+}
