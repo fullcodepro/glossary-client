@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { GlossaryContext } from '../context/GlossaryContext';
 import { glossaryTypes } from '../../types/glossaryTypes';
 import { URL } from '../../configs/envs';
+import Spinner2 from '../Spinner2';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -10,43 +11,10 @@ const headers = {
 
 export const GlossaryHomeScreen = () => {
   const navigate = useNavigate();
-
   const { glossary, dispatchGlossary } = useContext(GlossaryContext)
 
-  // const [words, setWords] = useState([]);
-
-  const handleSearchChange = () => { }
-
-  // console.log({words})
-
-  // useEffect(() => {
-  //   (async () => {
-  //     headers.authorization = localStorage.getItem('token');
-  //     const response = await getAllGlossary()
-
-  //     const data = await response.json();
-
-  //     if (!response.ok) alert(data.msg);
-
-  //     dispatchGlossary(data, {
-  //       action: {
-  //         type: glossaryTypes.addWord,
-  //         payload: data
-  //       }
-  //     });
-  //   })();
-
-  //   headers.authorization = '';
-
-  // }, []);
-
-  
-  // useEffect(() => {
-  //   setWords(glossary);
-  // }, [glossary]);
-
-  const handleEdit = () => {
-    
+  const handleEdit = (id) => {
+    navigate(`/edit/${id}`);
   }
 
   const handleDelete = async (id) => {
@@ -67,11 +35,6 @@ export const GlossaryHomeScreen = () => {
     return alert(msg)
   };
 
-
-
-
-
-
   return (
     <div className='container'>
       <div className='row'>
@@ -83,7 +46,7 @@ export const GlossaryHomeScreen = () => {
       </div>
       {
         (glossary?.length < 1)
-          ? (<p className='text-center'>{'Loading...'}</p>)
+          ? (<Spinner2 />)
           // : ( JSON.stringify(words, null, 3) )
           : (
             <>
@@ -95,15 +58,15 @@ export const GlossaryHomeScreen = () => {
                       <input
                         autoComplete='off'
                         className='form-control'
-                        onChange={handleSearchChange}
                         placeholder='Ingrese una palabra'
                         type='text'
                       />
                     </div>
 
                     <div className='col'>
-                      <button className='btn btn-md btn-success bg-gradient shadow'>
-                        Search
+                      <button
+                        className='btn btn-md btn-success bg-gradient shadow'>
+                        Buscar
                       </button>
                     </div>
 
