@@ -1,19 +1,28 @@
 import React, { useContext } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../components/context/AuthContext';
+import { GlossaryContext } from '../components/context/GlossaryContext';
 import { types } from '../types/types';
+import { glossaryTypes } from '../types/glossaryTypes';
 
 export const NavBar = () => {
     const { user, dispatch } = useContext(AuthContext);
+
+    const { dispatchGlossary} = useContext(GlossaryContext)
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('glossary');
         dispatch({
             types: types.logout,
         });
+        
+        dispatchGlossary({
+            type: glossaryTypes.clearGlossary
+        });
 
-        navigate('/login', {
+        return navigate('/login', {
             replace:true
         })
     }
@@ -26,7 +35,7 @@ export const NavBar = () => {
                 className="navbar-brand px-2"
                 to="/"
             >
-                HTC-Inventarios
+                Glossary
             </Link>
 
             <div className="navbar-collapse">
@@ -55,7 +64,7 @@ export const NavBar = () => {
                         { user.lastName }
                     </span>
                     <button
-                        className="nav-item nav-link btn"
+                        className="nav-item nav-link btn mx-2"
                         onClick={handleLogout}
                     >
                         Salir

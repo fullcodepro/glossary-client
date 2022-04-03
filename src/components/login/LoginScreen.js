@@ -2,11 +2,13 @@ import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { URL } from '../../configs/envs';
 import { useForm } from '../../hooks/useForm'
+import { getAllGlossary } from '../../selectors/getAllGlossary';
 import { types } from '../../types/types';
 import { AuthContext } from '../context/AuthContext';
+import { GlossaryContext } from '../context/GlossaryContext';
 // import './login.css'
 export const LoginScreen = () => {
-
+    const { dispatchGlossary } = useContext(GlossaryContext);
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -18,65 +20,82 @@ export const LoginScreen = () => {
     const { active, msg } = error;
 
     const [values, handleInputChange, reset] = useForm({
-        email: '',
-        password: ''
+        username: 'testuser@gmail.com',
+        password: 'UpKl1900#'
     });
 
-    const { email, password } = values;
+    const { username, password } = values;
 
 
     const handleLogin = (e) => {
         e.preventDefault()
 
-        if
-            (
-            email.trim().lenght === 0 ||
+        if (
+            username.trim().lenght === 0 ||
             password.trim().lenght === 0
         ) {
-            alert('Todos los campos son necesarios.');
-            return;
-        }
+            return alert('Todos los campos son necesarios.');
+        };
 
         fetch(`${URL}/api/auth/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username:email, password })
+            body: JSON.stringify({ username, password })
         })
             .then(async resp => {
 
-                const { ok } = resp;
-
-                if (!ok) {
+                if (!resp.ok) {
                     const { msg } = await resp.json();
-                    setError({
-                        active: true,
-                        msg
-                    })
-                    return;
-                }
+                    return alert(msg);
+                };
+
                 const { token, user } = await resp.json();
-
-                alert('Bienvenido al sistema');
-
                 localStorage.setItem('user', JSON.stringify(user));
                 localStorage.setItem('token', token);
+
                 reset();
 
                 dispatch({
                     types: types.login,
-                    payload: {  ...user }
+                    payload: { ...user }
                 });
 
-                const lastPath = localStorage.getItem('lastPath') || '/';
+                return;
+            })
+            .then(async () => {
 
-                navigate(lastPath, {
-                    replace: true
+                const options = {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        authorization: localStorage.getItem('token')
+                    }
+                };
+
+                const resp = await getAllGlossary(options);
+                if (!resp.ok) {
+                    const { msg } = await resp.json();
+                    return alert(msg);
+                };
+
+                const data = await resp.json();
+                // console.log(data)
+                dispatchGlossary({
+                    type: 'x',
+                    payload: data.sort()
                 })
 
-
+                return;
             })
+            .then(() => {
+                alert('Bienvenida/o al sistema');
+                const lastPath = localStorage.getItem('lastPath') || '/';
+                return navigate(lastPath, {
+                    replace: true
+                })
+            })
+            .catch(err => console.log({ err }))
 
     }
 
@@ -98,22 +117,22 @@ export const LoginScreen = () => {
 
                         }
                         <div className='card-title mb-3'>
-                            <h1 className='text-center bg-dark bg-gradient shadow-hover p-2 text-light'>Login</h1>
+                            <h1 className='text-center bg-dark bg-gradient shadow-hover p-2 text-light rounded'>Login</h1>
                         </div>
                         <div className='card-body'>
                             <form
                                 onSubmit={handleLogin}
                             >
                                 <div className="mb-3">
-                                    <label htmlFor="exampleInputEmail1" className="form-label">Usuario:</label>
+                                    <label htmlFor="exampleInputUsername1" className="form-label">Usuario:</label>
                                     <input
-                                        type="email"
-                                        name='email'
+                                        type="text"
+                                        name='username'
                                         className="form-control"
-                                        id="exampleInputEmail1"
+                                        id="exampleInputUsername1"
                                         aria-describedby="emailHelp"
                                         onChange={handleInputChange}
-                                        value={email}
+                                        value={username}
                                     />
                                     {/* <div id="emailHelp" className="form-text">We'll never share your email with anyone else.</div> */}
                                 </div>
@@ -132,7 +151,7 @@ export const LoginScreen = () => {
                                 <div className='form-group mt-4'>
                                     <button
                                         type="submit"
-                                        className="btn btn-primary w-100"
+                                        className="btn btn-dark w-100"
                                     >
                                         Ingresar
                                     </button>
