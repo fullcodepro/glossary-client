@@ -15,8 +15,8 @@ export const glossaryReducer = (state = [], action = '') => {
             return [...state, action.payload].sort();
         case editWord:
             return state.map(word => {
-                if (word.id === action.payload) { return word = action.payload } return word
-            }).sort()
+                if (word.id === action.payload.id) { word = action.payload; return word }; return word;
+            })
         case clearGlossary:
             return [];
         default:

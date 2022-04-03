@@ -14,7 +14,8 @@ export const GlossaryHomeScreen = () => {
   const { glossary, dispatchGlossary } = useContext(GlossaryContext)
 
   const handleEdit = (id) => {
-    navigate(`/edit/${id}`);
+    console.log({id})
+    navigate(`/edit/?q=${id}`);
   }
 
   const handleDelete = async (id) => {
@@ -87,7 +88,7 @@ export const GlossaryHomeScreen = () => {
                     <tbody>
                       {
                         glossary.map((word, i) => (
-                          <tr key={i}>
+                          <tr key={word.id}>
                             <td className='text-center'>{word.wordName}</td>
                             <td
                               aria-multiline="true"
