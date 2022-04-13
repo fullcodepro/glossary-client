@@ -1,9 +1,9 @@
 import { useEffect, useReducer } from 'react';
-import { AuthContext } from './components/context/AuthContext';
-import { GlossaryContext } from './components/context/GlossaryContext';
-import { authReducer } from './reducers/authReducer';
-import { glossaryReducer } from './reducers/glossaryReducer';
 import { AppRouter } from './routers/AppRouter';
+import { AuthContext } from './components/context/AuthContext';
+import { authReducer } from './reducers/authReducer';
+import { GlossaryContext } from './components/context/GlossaryContext';
+import { glossaryReducer } from './reducers/glossaryReducer';
 
 
 const init = () => {

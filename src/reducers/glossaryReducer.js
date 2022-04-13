@@ -4,21 +4,28 @@ const {
     deleteWord,
     addWord,
     editWord,
-    clearGlossary
+    clearGlossary,
+    search
 } = glossaryTypes;
 
 export const glossaryReducer = (state = [], action = '') => {
-    switch (action.type) {
+    switch (action?.type) {
         case deleteWord:
-            return state.filter(word => word.id !== action.payload).sort();
+            const arr1 = state.filter(word => word.id !== action.payload);
+            return arr1.sort();
         case addWord:
-            return [...state, action.payload].sort();
+            const arr2 = [...state, action.payload];
+            return arr2.sort();
         case editWord:
-            return state.map(word => {
+            const arr3 = state.map(word => {
                 if (word.id === action.payload.id) { word = action.payload; return word }; return word;
             })
+            return arr3.sort()
         case clearGlossary:
             return [];
+        case search:
+            const arr4 = state.map( word => (word.wordName.includes(action.payload) && word));
+            return arr4.sort();
         default:
             return action.payload;
     }

@@ -1,68 +1,33 @@
-import React, { useContext, useMemo, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom';
-import { URL } from '../../configs/envs';
-import { glossaryTypes } from '../../types/glossaryTypes';
-import { GlossaryContext } from '../context/GlossaryContext';
-import queryString from 'query-string';
-import { getWordById } from '../../selectors/getWordById';
+import React/*,  { useContext, useEffect, useMemo, useState } */ from 'react'
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import { URL } from '../../configs/envs';
+// import { glossaryTypes } from '../../types/glossaryTypes';
+// import { GlossaryContext } from '../context/GlossaryContext';
+// import queryString from 'query-string';
+// import { getWordById } from '../../selectors/getWordById';
 
-const headers = {
-  'Content-Type': 'application/json',
-};
+// const headers = {
+//   'Content-Type': 'application/json',
+// };
 
 export const EditGlossaryScreen = () => {
 
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { q } = queryString.parse(location.search)
-  
-  const { glossary, dispatchGlossary } = useContext(GlossaryContext);
-  
-  const query = useMemo(() => getWordById(glossary, q), [glossary, q])
-  const [word, setWord] = useState(query);
-  const { wordName, definition } = word;
+  // const navigate = useNavigate();
+  // const location = useLocation();
+  // const { q } = queryString.parse(location.search)
 
+
+  
   const handleInputChange = ({ target }) => {
     if (target.name === 'definition' && target.value.length === 200) {
       return alert(`Límite de caracteres alcanzado: ${target.value.length}`)
     }
-    setWord({
-      ...word,
-      [target.name]: target.value
-    })
+    
   };
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    headers.authorization = localStorage.getItem('token');
-    (async () => {
-
-      const response = await fetch(`${URL}/api/word/${word.id}`, {
-        method: 'PUT',
-        body: JSON.stringify(word),
-        headers
-      });
-
-      let { msg } = await response.json();
-      
-      if (
-        !response.ok
-      ) {
-        return alert(msg);
-      }
-
-      headers.authorization = '';
-      
-      dispatchGlossary({
-      type: glossaryTypes.editWord,
-        payload: word
-      });
-      
-      alert(msg)
-      navigate('/home')
-    })()
-
   };
 
   return (
@@ -80,6 +45,22 @@ export const EditGlossaryScreen = () => {
             onSubmit={handleSubmit}
             className='pt-3'
           >
+
+            <div className="mb-3">
+              <label htmlFor="disabledSelect" className="form-label">Seleccione una categoría</label>
+              <select
+                id="disabledSelect"
+                className="form-select"
+                name="categoryId"
+                value=""
+                onChange={handleInputChange}
+              >
+                <option defaultChecked disabled value={(Math.floor(Math.random() * (100, 1) - 1)).toString()}>Seleccione una opción</option>
+               
+              </select>
+
+            </div>
+
             <div className="mb-3">
               <label htmlFor="exampleFormControlInput1" className="form-label">Palabra:</label>
               <input
@@ -88,10 +69,12 @@ export const EditGlossaryScreen = () => {
                 id="exampleFormControlInput1"
                 placeholder="Ej: cibersecurity"
                 name='wordName'
-                value={wordName}
+                value=""
                 onChange={handleInputChange}
               />
             </div>
+
+
             <div className="mb-3">
               <label htmlFor="exampleFormControlTextarea1" className="form-label">Definición:</label>
               <textarea
@@ -101,7 +84,7 @@ export const EditGlossaryScreen = () => {
                 rows="3"
                 maxLength={200}
                 name='definition'
-                value={definition}
+                value=""
                 onChange={handleInputChange}
               ></textarea>
             </div>

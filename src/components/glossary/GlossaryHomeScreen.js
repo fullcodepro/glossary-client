@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { GlossaryContext } from '../context/GlossaryContext';
 import { glossaryTypes } from '../../types/glossaryTypes';
 import { URL } from '../../configs/envs';
-import Spinner2 from '../Spinner2';
+// import Spinner2 from '../Spinner2';
+import { Search } from './Search';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -13,28 +14,52 @@ export const GlossaryHomeScreen = () => {
   const navigate = useNavigate();
   const { glossary, dispatchGlossary } = useContext(GlossaryContext)
 
-  const handleEdit = (id) => {
-    console.log({id})
-    navigate(`/edit/?q=${id}`);
-  }
+  useEffect(() => {
+    ( async ( ) => {
+      const resp = await fetch('http://localhost:5000/api/word/', {
+        method:'GET',
+        headers: {
+          'Content-Type':'application/json',
+          authorization: localStorage.getItem('token')
+        }
+      })
+      const data = await resp.json();
 
-  const handleDelete = async (id) => {
-    headers.authorization = localStorage.getItem('token');
-    const response = await fetch(`${URL}/api/word/${id}`, {
-      method: 'DELETE',
-      headers
-    });
+      if(!resp.ok) return alert(data.msg)
 
-    const { msg } = await response.json();
-    if (!response.ok) return alert(msg);
+      dispatchGlossary({
+        type:'',
+        payload: data
+      })
+    })();
+  }, []);
 
-    dispatchGlossary({
-      type: glossaryTypes.deleteWord,
-      payload: id
-    })
-    navigate('/');
-    return alert(msg)
+  const handleEdit = (id) => navigate(`/edit/?q=${id}`);
+
+  const handleDelete = (id) => {
+    // return console.log(id)
+    (async () => {
+
+      headers.authorization = localStorage.getItem('token');
+      const response = await fetch(`${URL}/api/word/${id}`, {
+        method: 'DELETE',
+        headers
+      });
+
+      const data = await response.json();
+      console.log(data)
+      if (!response.ok) return alert(data.msg);
+
+      dispatchGlossary({
+        type: glossaryTypes.deleteWord,
+        payload: id
+      })
+      
+      alert(data.msg)
+    })();
+    navigate('/home');
   };
+
 
   return (
     <div className='container'>
@@ -47,32 +72,15 @@ export const GlossaryHomeScreen = () => {
       </div>
       {
         (glossary?.length < 1)
-          ? (<Spinner2 />)
+          ? (
+          // <Spinner2 />
+          <h3 className='text-center mt-4'> No hay resultados que mostrar</h3>
+          )
           // : ( JSON.stringify(words, null, 3) )
           : (
             <>
               <div className=' row mt-4 mb-3'>
-                <form className=''>
-                  <div className='d-flex justify-content-center align-items-center row'>
-
-                    <div className='col'>
-                      <input
-                        autoComplete='off'
-                        className='form-control'
-                        placeholder='Ingrese una palabra'
-                        type='text'
-                      />
-                    </div>
-
-                    <div className='col'>
-                      <button
-                        className='btn btn-md btn-success bg-gradient shadow'>
-                        Buscar
-                      </button>
-                    </div>
-
-                  </div>
-                </form>
+                <Search glossary={glossary} />
               </div>
 
               <div className='row'>
@@ -82,28 +90,35 @@ export const GlossaryHomeScreen = () => {
                       <tr>
                         <th>Palabra</th>
                         <th>Definición</th>
+                        <th>Categoría</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="">
                       {
                         glossary.map((word, i) => (
-                          <tr key={word.id}>
+                          <tr key={i}>
                             <td className='text-center'>{word.wordName}</td>
+
                             <td
                               aria-multiline="true"
-                            >{word.definition}</td>
-                            <td>
-                              <div className='d-flex'>
+                            >
+                              {word.definition}
+                            </td>
+
+                            <td>{word.categoryId[0]?.name || "Sin categoría"}</td>
+
+                            <td >
+                              <div className="d-flex justify-content-center">
                                 <button
-                                  className='d-inline btn bg-gradient shadow-hover btn-sm btn-warning mx-1'
-                                  onClick={() => handleEdit(word.id)}
+                                  className='btn bg-gradient shadow-hover btn-sm btn-warning mx-1'
+                                  onClick={() => handleEdit(word._id)}
                                 >
                                   Editar
                                 </button>
                                 <button
                                   className='btn btn-sm bg-gradient shadow-hover btn-danger'
-                                  onClick={() => handleDelete(word.id)}
+                                  onClick={() => handleDelete(word._id)}
                                 >
                                   Eliminar
                                 </button>

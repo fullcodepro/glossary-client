@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { URL } from '../../configs/envs';
 import { glossaryTypes } from '../../types/glossaryTypes';
@@ -14,12 +14,30 @@ export const NewGlossaryScreen = () => {
 
   const { dispatchGlossary } = useContext(GlossaryContext);
 
+  const [categories, setCategories] = useState([]);
   const [newWord, setNewWord] = useState({
     wordName: '',
-    definition: ''
+    definition: '',
+    categoryId: ''
   });
 
-  const { wordName, definition } = newWord;
+  const { wordName, definition, categoryId } = newWord;
+
+  useEffect(() => {
+    headers.authorization = localStorage.getItem('token');
+
+    (async () => {
+
+      const resp = await fetch(`${URL}/api/category`, { headers })
+      const data = await resp.json();
+      if (!resp.ok) {
+        return alert(data.msg)
+      }
+      setCategories(data);
+    })();
+  }, []);
+
+
 
   const handleInputChange = ({ target }) => {
 
@@ -46,23 +64,24 @@ export const NewGlossaryScreen = () => {
         headers
       });
 
-      let { msg } = await response.json();
+      let data = await response.json();
 
       if (
         !response.ok
       ) {
-        return alert(msg);
+        return alert(data.msg);
       }
 
-      dispatchGlossary({
+      await dispatchGlossary({
         type: glossaryTypes.addWord,
-        payload: newWord
+        payload: data.word
       });
 
       headers.authorization = '';
-      navigate('/home')
-      alert(msg)
+      console.log(data.msg)
     })()
+    
+    return navigate('/')
   };
 
   return (
@@ -80,6 +99,34 @@ export const NewGlossaryScreen = () => {
             onSubmit={handleSubmit}
             className='pt-3'
           >
+
+
+            <div className="mb-3">
+              <label htmlFor="disabledSelect" className="form-label">Seleccione una categoría</label>
+              <select
+                id="disabledSelect"
+                className="form-select"
+                name="categoryId"
+                value={categoryId}
+                onChange={handleInputChange}
+              >
+                <option value={(Math.floor(Math.random() * (1000000, 1) - 1)).toString()}>Seleccione una opcion</option>
+                {
+                  (categories?.length > 0) &&
+                  categories.map(category => (
+                    <option
+                      key={category._id}
+                      value={category._id}
+                    >
+                      {category.name}
+                    </option>
+                  ))
+                }
+              </select>
+
+            </div>
+
+
             <div className="mb-3">
               <label htmlFor="exampleFormControlInput1" className="form-label">Palabra:</label>
               <input

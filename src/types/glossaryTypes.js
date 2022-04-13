@@ -4,5 +4,6 @@ export const glossaryTypes = {
     deleteWord: '[word] delete',
     editWord: '[word] edit',
     putWord: '[word] put',
-    clearGlossary: '[glossary] clear'
+    clearGlossary: '[glossary] clear',
+    search:'[glossary] search'
 }

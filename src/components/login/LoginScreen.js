@@ -86,12 +86,8 @@ export const LoginScreen = () => {
                     payload: data.sort()
                 })
 
-                return;
-            })
-            .then(() => {
-                alert('Bienvenida/o al sistema');
                 const lastPath = localStorage.getItem('lastPath') || '/';
-                return navigate(lastPath, {
+                navigate(lastPath, {
                     replace: true
                 })
             })

@@ -1,4 +1,4 @@
 
 export const getWordById = (glossary, id) => {
-    return glossary.find( hero => hero.id === id);
+    return glossary.find( word => word._id === id);
 };
