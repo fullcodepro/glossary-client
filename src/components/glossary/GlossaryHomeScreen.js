@@ -5,6 +5,8 @@ import { URL } from '../../configs/envs';
 // import Spinner2 from '../Spinner2';
 import { Search } from './Search';
 
+import backgroundImage from './image_back.jpg';
+
 const headers = {
   'Content-Type': 'application/json',
 };
@@ -50,7 +52,10 @@ export const GlossaryHomeScreen = () => {
         (glossary?.length < 1)
           ? (
           // <Spinner2 />
-          <h3 className='text-center mt-4'> No hay resultados que mostrar</h3>
+          <div className=' d-flex mt-5 flex-column justify-content-center align-items-center'>
+            <h3 className='text-center'> Empieza a agregar palabras!!!</h3>
+            <img src={backgroundImage} width={600} alt='No hay palabras para mostrar' />
+          </div>
           )
           // : ( JSON.stringify(words, null, 3) )
           : (
