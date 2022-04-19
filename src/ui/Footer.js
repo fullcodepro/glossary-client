@@ -2,9 +2,9 @@ import React from 'react'
 
 export const Footer = () => {
     return (
-        <div className='navbar navbar-dark bg-dark text-light'>
+        <div className='navbar mt-3 navbar-dark bg-dark text-light'>
                <div className='container-fluid d-flex justify-content-center align-items-center'>
-                   <p className='text-center p-2'>Honorable Tribunal de Cuentas de Formosa 2021</p>
+                   <p className='text-center p-2'>fULLCodePro 2022</p>
                </div>
         </div>
 
