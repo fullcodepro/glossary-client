@@ -3,12 +3,11 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../components/context/AuthContext';
 import { GlossaryContext } from '../components/context/GlossaryContext';
 import { types } from '../types/types';
-import { glossaryTypes } from '../types/glossaryTypes';
 
 export const NavBar = () => {
     const { user, dispatch } = useContext(AuthContext);
 
-    const { dispatchGlossary} = useContext(GlossaryContext)
+    const { clearGlossary} = useContext(GlossaryContext)
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -18,9 +17,7 @@ export const NavBar = () => {
             types: types.logout,
         });
         
-        dispatchGlossary({
-            type: glossaryTypes.clearGlossary
-        });
+        clearGlossary();
 
         return navigate('/login', {
             replace:true
@@ -60,8 +57,8 @@ export const NavBar = () => {
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
                 <ul className="navbar-nav ml-auto">
 
-                    <span className='nav-item nav-link text-info'>
-                        { user.lastName }
+                    <span className='nav-item nav-link text-white'>
+                        { user.firstName }
                     </span>
                     <button
                         className="nav-item nav-link btn mx-2"

@@ -4,6 +4,7 @@ import { AuthContext } from './components/context/AuthContext';
 import { authReducer } from './reducers/authReducer';
 import { GlossaryContext } from './components/context/GlossaryContext';
 import { glossaryReducer } from './reducers/glossaryReducer';
+import { glossaryTypes } from './types/glossaryTypes';
 
 
 const init = () => {
@@ -11,17 +12,16 @@ const init = () => {
 }
 
 const initGlossary = () => {
-  const arr = [];
-  return JSON.parse(localStorage.getItem('glossary')) || arr;
+  return JSON.parse(localStorage.getItem('glossary')) || [];
 };
 
 function App() {
 
   const [user, dispatch] = useReducer(authReducer, {}, init);
-  const [glossary, dispatchGlossary] = useReducer(glossaryReducer, [], initGlossary);
+  const [glossary, dispatchG] = useReducer(glossaryReducer, [], initGlossary);
 
   useEffect(() => {
-    if(glossary.length < 1){ 
+    if (glossary?.length < 1) {
       return;
     }
     localStorage.setItem('glossary', JSON.stringify(glossary));
@@ -31,16 +31,58 @@ function App() {
   useEffect(() => {
     if (!user) return;
     localStorage.setItem('user', JSON.stringify(user));
+
   }, [user]);
 
-  return (
 
+  const setInitialState = (arrWords) => {
+    dispatchG({
+      payload: arrWords
+    })
+  }
+
+  // Funciones Globales para el CRUD
+  const addWord = (word) => {
+    dispatchG({
+      type: glossaryTypes.addWord,
+      payload: word
+    });
+  }
+
+  const editWord = (word) => {
+    dispatchG({
+      type: glossaryTypes.editWord,
+      payload: word
+    });
+  }
+
+  const removeWord = (id) => {
+    dispatchG({
+      type: glossaryTypes.deleteWord,
+      payload: id
+    });
+  }
+
+  const clearGlossary = () => {
+    dispatchG({
+      type: glossaryTypes.clearGlossary
+    });
+  }
+
+
+
+  return (
 
     <AuthContext.Provider value={{
       user, dispatch
     }}>
       <GlossaryContext.Provider value={{
-        glossary, dispatchGlossary
+        glossary,
+        setInitialState,
+        addWord,
+        editWord,
+        removeWord,
+        clearGlossary
       }}>
         <AppRouter />
       </GlossaryContext.Provider>

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { URL } from '../../configs/envs';
-import { glossaryTypes } from '../../types/glossaryTypes';
 import { GlossaryContext } from '../context/GlossaryContext';
 
 const headers = {
@@ -12,7 +11,7 @@ export const NewGlossaryScreen = () => {
 
   const navigate = useNavigate();
 
-  const { dispatchGlossary } = useContext(GlossaryContext);
+  const { addWord } = useContext(GlossaryContext);
 
   const [categories, setCategories] = useState([]);
   const [newWord, setNewWord] = useState({
@@ -23,11 +22,10 @@ export const NewGlossaryScreen = () => {
 
   const { wordName, definition, categoryId } = newWord;
 
+  // Se obtienen todas las categorías del back-end
   useEffect(() => {
     headers.authorization = localStorage.getItem('token');
-
     (async () => {
-
       const resp = await fetch(`${URL}/api/category`, { headers })
       const data = await resp.json();
       if (!resp.ok) {
@@ -38,7 +36,7 @@ export const NewGlossaryScreen = () => {
   }, []);
 
 
-
+  // Estado de los datos nuevos a almacenar
   const handleInputChange = ({ target }) => {
 
     if (target.name === 'definition' && target.value.length === 200) {
@@ -51,10 +49,10 @@ export const NewGlossaryScreen = () => {
   };
 
 
+  // Se envían guardan los datos en la BD y luego se actualiza el context
   const handleSubmit = (e) => {
     e.preventDefault();
     headers.authorization = localStorage.getItem('token');
-
 
     (async () => {
 
@@ -72,16 +70,12 @@ export const NewGlossaryScreen = () => {
         return alert(data.msg);
       }
 
-      await dispatchGlossary({
-        type: glossaryTypes.addWord,
-        payload: data.word
-      });
+      addWord(data.word);
 
       headers.authorization = '';
       console.log(data.msg)
+      return navigate('/')
     })()
-    
-    return navigate('/')
   };
 
   return (

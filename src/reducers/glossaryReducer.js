@@ -11,14 +11,14 @@ const {
 export const glossaryReducer = (state = [], action = '') => {
     switch (action?.type) {
         case deleteWord:
-            const arr1 = state.filter(word => word.id !== action.payload);
+            const arr1 = state.filter(word => word._id !== action.payload);
             return arr1.sort();
         case addWord:
             const arr2 = [...state, action.payload];
             return arr2.sort();
         case editWord:
             const arr3 = state.map(word => {
-                if (word.id === action.payload.id) { word = action.payload; return word }; return word;
+                if (word._id === action.payload._id) { word = action.payload; return word }; return word;
             })
             return arr3.sort()
         case clearGlossary:
@@ -29,4 +29,4 @@ export const glossaryReducer = (state = [], action = '') => {
         default:
             return action.payload;
     }
-}
+};

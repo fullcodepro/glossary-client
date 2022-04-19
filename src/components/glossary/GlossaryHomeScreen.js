@@ -1,7 +1,6 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { GlossaryContext } from '../context/GlossaryContext';
-import { glossaryTypes } from '../../types/glossaryTypes';
 import { URL } from '../../configs/envs';
 // import Spinner2 from '../Spinner2';
 import { Search } from './Search';
@@ -12,32 +11,11 @@ const headers = {
 
 export const GlossaryHomeScreen = () => {
   const navigate = useNavigate();
-  const { glossary, dispatchGlossary } = useContext(GlossaryContext)
-
-  useEffect(() => {
-    ( async ( ) => {
-      const resp = await fetch('http://localhost:5000/api/word/', {
-        method:'GET',
-        headers: {
-          'Content-Type':'application/json',
-          authorization: localStorage.getItem('token')
-        }
-      })
-      const data = await resp.json();
-
-      if(!resp.ok) return alert(data.msg)
-
-      dispatchGlossary({
-        type:'',
-        payload: data
-      })
-    })();
-  }, []);
+  const { glossary, removeWord } = useContext(GlossaryContext)
 
   const handleEdit = (id) => navigate(`/edit/?q=${id}`);
 
   const handleDelete = (id) => {
-    // return console.log(id)
     (async () => {
 
       headers.authorization = localStorage.getItem('token');
@@ -48,16 +26,15 @@ export const GlossaryHomeScreen = () => {
 
       const data = await response.json();
       console.log(data)
-      if (!response.ok) return alert(data.msg);
-
-      dispatchGlossary({
-        type: glossaryTypes.deleteWord,
-        payload: id
-      })
-      
+      if (!response.ok) {
+        removeWord(id);
+        return alert(data.msg);
+      }
+      removeWord(id);
+      console.log("el id recibido es ", id)
+      navigate('/home');
       alert(data.msg)
     })();
-    navigate('/home');
   };
 
 
@@ -96,7 +73,7 @@ export const GlossaryHomeScreen = () => {
                     </thead>
                     <tbody className="">
                       {
-                        glossary.map((word, i) => (
+                        glossary?.map((word, i) => (
                           <tr key={i}>
                             <td className='text-center'>{word.wordName}</td>
 
@@ -106,7 +83,7 @@ export const GlossaryHomeScreen = () => {
                               {word.definition}
                             </td>
 
-                            <td>{word.categoryId[0]?.name || "Sin categoría"}</td>
+                            <td>{word.categoryId[0]?.name || word.categoryId || "Sin categoría"}</td>
 
                             <td >
                               <div className="d-flex justify-content-center">

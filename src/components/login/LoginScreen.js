@@ -8,7 +8,7 @@ import { AuthContext } from '../context/AuthContext';
 import { GlossaryContext } from '../context/GlossaryContext';
 // import './login.css'
 export const LoginScreen = () => {
-    const { dispatchGlossary } = useContext(GlossaryContext);
+    const { setInitialState } = useContext(GlossaryContext);
     const { dispatch } = useContext(AuthContext);
     const navigate = useNavigate();
 
@@ -52,7 +52,11 @@ export const LoginScreen = () => {
                 };
 
                 const { token, user } = await resp.json();
-                localStorage.setItem('user', JSON.stringify(user));
+                // localStorage.setItem('user', JSON.stringify(user));
+                dispatch({
+                    type: types.login,
+                    payload: user
+                })
                 localStorage.setItem('token', token);
 
                 reset();
@@ -80,14 +84,11 @@ export const LoginScreen = () => {
                 };
 
                 const data = await resp.json();
-                // console.log(data)
-                dispatchGlossary({
-                    type: 'x',
-                    payload: data.sort()
-                })
+                console.log({data})
+                setInitialState(data)
 
                 const lastPath = localStorage.getItem('lastPath') || '/';
-                navigate(lastPath, {
+                return navigate(lastPath, {
                     replace: true
                 })
             })
