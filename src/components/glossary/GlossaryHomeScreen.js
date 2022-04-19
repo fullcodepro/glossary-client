@@ -12,7 +12,7 @@ const headers = {
 export const GlossaryHomeScreen = () => {
   const navigate = useNavigate();
   const { glossary, removeWord } = useContext(GlossaryContext)
-
+  
   const handleEdit = (id) => navigate(`/edit/?q=${id}`);
 
   const handleDelete = (id) => {
@@ -25,13 +25,12 @@ export const GlossaryHomeScreen = () => {
       });
 
       const data = await response.json();
-      console.log(data)
+      console.log("> ",data)
       if (!response.ok) {
-        removeWord(id);
+        // removeWord(id);
         return alert(data.msg);
       }
       removeWord(id);
-      console.log("el id recibido es ", id)
       navigate('/home');
       alert(data.msg)
     })();
@@ -43,7 +42,7 @@ export const GlossaryHomeScreen = () => {
       <div className='row'>
         <div className='col'>
           <header>
-            <h1 className=' rounded bg-dark bg-gradient shadow-hover text-light text-center py-3 mt-4'>Glosario de términos de Ciberseguridad</h1>
+            <h1 className=' rounded bg-dark bg-gradient shadow-hover text-light text-center py-3 mt-4'>GLOSARIO DE TÉRMINOS</h1>
           </header>
         </div>
       </div>

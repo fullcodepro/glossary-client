@@ -43,7 +43,7 @@ export const EditGlossaryScreen = () => {
     wordFounded._id = data._id
     console.log(wordFounded)
     setWordSelected(wordFounded)
-  }, []);
+  }, [glossary, q]);
 
 
   // Manejo de cambio de los inputs
@@ -81,7 +81,6 @@ export const EditGlossaryScreen = () => {
           navigate('/')
           return alert(data.msg)
         }
-
         editWord(data.wordUpdated)
         navigate('/')
         return alert(data.msg)

@@ -84,7 +84,6 @@ export const LoginScreen = () => {
                 };
 
                 const data = await resp.json();
-                console.log({data})
                 setInitialState(data)
 
                 const lastPath = localStorage.getItem('lastPath') || '/';

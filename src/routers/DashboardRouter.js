@@ -9,15 +9,22 @@ export const DashboardRouter = () => {
   return (
     <>
       <NavBar />
-      <div>
-        <Routes>
-          <Route path="/home" element={<GlossaryHomeScreen />} />
-          <Route path="/new" element={<NewGlossaryScreen />} />
-          <Route path="/edit" element={<EditGlossaryScreen />} />
-          {/* <Route path="/edit/:id" element={<EditarInventarioScreen />} /> */}
+      <div className="row vh-100">
+        <div className='col-3 sidebar px-4 mt-4 rounded d-flex justify-content-center vh-100'>
+          <div className="bg-dark rounded d-flex justify-content-center  w-100 h-100 text-white">
+          <p className="text-center mt-4">BARRA LATERAL</p>
+          </div>
+        </div>
+        <div className='col'>
+          <Routes>
+            <Route path="/home" element={<GlossaryHomeScreen />} />
+            <Route path="/new" element={<NewGlossaryScreen />} />
+            <Route path="/edit" element={<EditGlossaryScreen />} />
+            {/* <Route path="/edit/:id" element={<EditarInventarioScreen />} /> */}
 
-          <Route path="/" element={<GlossaryHomeScreen />} />
-        </Routes>
+            <Route path="/" element={<GlossaryHomeScreen />} />
+          </Routes>
+        </div>
       </div>
     </>
   );
