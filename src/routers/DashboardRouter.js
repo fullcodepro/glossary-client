@@ -12,7 +12,7 @@ export const DashboardRouter = () => {
       <NavBar />
       <div className="row vh-100">
         <div className='col-3 sidebar px-4 mt-4 rounded d-flex justify-content-center vh-100'>
-          <div className="bg-dark rounded d-flex justify-content-center  w-100 h-100 text-white">
+          <div className="bg-dark shadow-hover bg-gradient rounded d-flex justify-content-center  w-100 h-100 text-white">
           <p className="text-center mt-4">BARRA LATERAL</p>
           </div>
         </div>
