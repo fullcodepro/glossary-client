@@ -14,7 +14,7 @@ const headers = {
 export const GlossaryHomeScreen = () => {
   const navigate = useNavigate();
   const { glossary, removeWord } = useContext(GlossaryContext)
-  
+
   const handleEdit = (id) => navigate(`/edit/?q=${id}`);
 
   const handleDelete = (id) => {
@@ -27,7 +27,7 @@ export const GlossaryHomeScreen = () => {
       });
 
       const data = await response.json();
-      console.log("> ",data)
+      console.log("> ", data)
       if (!response.ok) {
         // removeWord(id);
         return alert(data.msg);
@@ -44,18 +44,20 @@ export const GlossaryHomeScreen = () => {
       <div className='row'>
         <div className='col'>
           <header>
-            <h1 className=' rounded bg-dark bg-gradient shadow-hover text-light text-center py-3 mt-4'>GLOSARIO DE TÉRMINOS</h1>
+            <h1 className=' rounded shadow text-dark text-center py-3 mt-3'>GLOSARIO DE TÉRMINOS</h1>
           </header>
         </div>
       </div>
       {
         (glossary?.length < 1)
           ? (
-          // <Spinner2 />
-          <div className=' d-flex mt-5 flex-column justify-content-center align-items-center'>
-            <h3 className='text-center'> Empieza a agregar palabras!!!</h3>
-            <img src={backgroundImage} width={600} alt='No hay palabras para mostrar' />
-          </div>
+            // <Spinner2 />
+            <>
+              <div className=' d-flex mt-5 flex-column justify-content-center align-items-center'>
+                <h3 className='text-center my-3'> Empieza a agregar conceptos!</h3>
+                <img src={backgroundImage} width={600} className="shadow shadow-3 shadow-hover" alt='No hay palabras para mostrar' />
+              </div>
+            </>
           )
           // : ( JSON.stringify(words, null, 3) )
           : (
@@ -66,12 +68,13 @@ export const GlossaryHomeScreen = () => {
 
               <div className='row'>
                 <div className='col'>
-                  <table className='table table-bordered table-hover border'>
-                    <thead className='bg-dark bg-gradient text-center text-light shadow-hover'>
+                  <table className='table table-bordered text-center table-hover border'>
+                    <thead className='bg-dark bg-gradient text-light shadow-hover'>
                       <tr>
                         <th>Palabra</th>
                         <th>Definición</th>
                         <th>Categoría</th>
+                        <th>Creado por</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -88,7 +91,7 @@ export const GlossaryHomeScreen = () => {
                             </td>
 
                             <td>{word.categoryId[0]?.name || word.categoryId || "Sin categoría"}</td>
-
+                            <td>{word.createdFor?.firstName}</td>
                             <td >
                               <div className="d-flex justify-content-center">
                                 <button

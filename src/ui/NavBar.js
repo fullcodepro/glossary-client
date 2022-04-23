@@ -29,7 +29,7 @@ export const NavBar = () => {
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
 
             <Link
-                className="navbar-brand px-2"
+                className="navbar-brand px-2 text-warning"
                 to="/"
             >
                 Glossary

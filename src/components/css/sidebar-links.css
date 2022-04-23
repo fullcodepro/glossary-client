@@ -1,0 +1,10 @@
+.sidebar-link:hover {
+    box-shadow: 4px;
+    border: 1px solid rgb(201, 199, 199);
+}
+
+.selected-item {
+    box-shadow: 4px;
+    border: 1px solid rgb(47, 90, 209);
+    color: white
+}

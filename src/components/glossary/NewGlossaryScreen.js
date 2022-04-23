@@ -31,7 +31,7 @@ export const NewGlossaryScreen = () => {
       if (!resp.ok) {
         return alert(data.msg)
       }
-      setCategories(data);
+      setCategories(data.entries);
     })();
   }, []);
 
@@ -73,22 +73,20 @@ export const NewGlossaryScreen = () => {
       addWord(data.word);
 
       headers.authorization = '';
-      console.log(data.msg)
-      return navigate('/')
+
+      navigate('/')
+      return alert(data.msg)
     })()
   };
 
   return (
-    <div className='container'>
-      <div className='row mt-4'>
-        <div className='col'>
+    <div className='container mt-5'>
+      <div className='row'>
+        <div className='col-6 mx-auto shadow pt-2'>
           <h1 className='text-center text-light bg-dark bg-gradient shadow-hover rounded p-2'>
             Nueva Palabra
           </h1>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col'>
+      
           <form
             onSubmit={handleSubmit}
             className='pt-3'
@@ -126,6 +124,7 @@ export const NewGlossaryScreen = () => {
               <input
                 type="text"
                 className="form-control"
+                autoComplete='off'
                 id="exampleFormControlInput1"
                 placeholder="Ej: cibersecurity"
                 name='wordName'
@@ -138,6 +137,7 @@ export const NewGlossaryScreen = () => {
               <textarea
                 className="form-control"
                 placeholder='200 caracteres máximo'
+                autoComplete='off'
                 id="exampleFormControlTextarea1"
                 rows="3"
                 maxLength={200}
