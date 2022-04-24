@@ -155,7 +155,7 @@ export const AddCategory = () => {
                 <div className='row mx-auto mt-4 p-3 shadow'>
                     {/* AGREGAR NUEVA CATEGORÍA */}
                     <div className='col-md-6'>
-                        <h5 className="text-center">
+                        <h5 className="text-center font-weight">
                             {
                                 (!showEdit.show)
                                     ? "AGREGAR NUEVA"
@@ -215,7 +215,7 @@ export const AddCategory = () => {
 
                     {/* LISTADO CATEGORÍAS EXISTENTES */}
                     <div className='col'>
-                        <h5 className="text-center">EXISTENTES</h5>
+                        <h5 className="text-center font-bold">EXISTENTES</h5>
                         <div className=''>
                             <ul className='list-group ouverflow'>
                                 {
