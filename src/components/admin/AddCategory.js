@@ -29,7 +29,7 @@ export const AddCategory = () => {
     useEffect(() => {
         (
             async () => {
-                const response = await fetch('http://127.0.0.1:5000/api/category/', {
+                const response = await fetch('http://127.0.0.1:6000/api/category/', {
                     'Content-Type': 'application/json',
                     headers: {
                         'authorization': localStorage.getItem('token'),
@@ -62,7 +62,7 @@ export const AddCategory = () => {
             return alert('No se puede crear categoría sin nombre')
         }
 
-        const response = await fetch('http://127.0.0.1:5000/api/category', {
+        const response = await fetch('http://127.0.0.1:6000/api/category', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export const AddCategory = () => {
             return alert("No hay id en el botón")
         }
 
-        const response = await fetch(`http://127.0.0.1:5000/api/category/${id}`, {
+        const response = await fetch(`http://127.0.0.1:6000/api/category/${id}`, {
             method: 'DELETE',
             'Content-Type': 'application/json',
             headers: {
@@ -128,7 +128,7 @@ export const AddCategory = () => {
     const handleEditCategory = async (e) => {
 
         e.preventDefault();
-        const response = await fetch(`http://127.0.0.1:5000/api/category/${showEdit.id}`, {
+        const response = await fetch(`http://127.0.0.1:6000/api/category/${showEdit.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
