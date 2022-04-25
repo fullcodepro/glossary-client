@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSave } from '@fortawesome/free-solid-svg-icons'
 // import { useNavigate } from 'react-router-dom';
 import '../../components/css/AddCategory.css';
+import { faTrashAlt, faXmarkCircle } from '@fortawesome/free-regular-svg-icons';
+
+
 export const AddCategory = () => {
 
     // const navigate = useNavigate();
-    
+
     // TODAS LAS CATEGORÍAS PROVENIENTES DE LA BD
     const [allCategories, setallCategories] = useState([]);
-    
+
     // FORMULARIO DE LA VISTA
     const [category, setCategory] = useState({
         name: ''
@@ -149,110 +154,110 @@ export const AddCategory = () => {
 
     return (
         <>
-            <div className='container'>
-                <h1 className='text-center shadow py-3'>CATEGORÍAS DE CONCEPTOS</h1>
 
-                <div className='row mx-auto mt-4 p-3 shadow'>
-                    {/* AGREGAR NUEVA CATEGORÍA */}
-                    <div className='col-md-6'>
-                        <h5 className="text-center font-weight">
+            <div className='row mx-auto gap-3 rounded  overflow-hidden'>
+                <header>
+                    <h1 className=' rounded text-dark text-center py-3'>CATEGORÍAS</h1>
+                </header>
+                {/* COLUMNA 1/2  AGREGAR NUEVA CATEGORÍA */}
+                <div className='col-md-6 px-4 border'>
+                    <h5 className="text-center font-weight py-2">
+                        {
+                            (!showEdit.show)
+                                ? "AGREGAR NUEVA"
+                                : "EDITAR"}
+                    </h5>
+                    <form>
+                        <div className='form-group mb-3'>
+                            <input
+                                type="text"
+                                className='form-control'
+                                placeholder='Ej: Física'
+                                autoComplete='off'
+                                name="name"
+                                value={name}
+                                onChange={handleInputChange}
+                            />
+                        </div>
+
+                        <div className='form-group mb-3'>
                             {
                                 (!showEdit.show)
-                                    ? "AGREGAR NUEVA"
-                                    : "EDITAR"}
-                        </h5>
-                        <form>
-                            <div className='form-group mb-3'>
-                                <input
-                                    type="text"
-                                    className='form-control'
-                                    placeholder='Ej: Física'
-                                    autoComplete='off'
-                                    name="name"
-                                    value={name}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-
-                            <div className='form-group mb-3'>
-                                {
-                                    (!showEdit.show)
-                                        ?
-                                        (
+                                    ?
+                                    (
+                                        <button
+                                            type='submit'
+                                            className='btn btn-success bg-gradient shadow-hover'
+                                            onClick={handleSubmit}
+                                        >
+                                            <FontAwesomeIcon icon={faSave} /> Guardar
+                                        </button>
+                                    )
+                                    :
+                                    (
+                                        <>
                                             <button
-                                                type='submit'
-                                                className='btn btn-success bg-gradient shadow-hover'
-                                                onClick={handleSubmit}
+                                                type='button'
+                                                className='btn btn-md btn-outline-primary bg-gradient shadow-hover mx-2'
+                                                onClick={handleEditCategory}
                                             >
-                                                Guardar
+                                                <FontAwesomeIcon icon={faSave} /> Guardar
                                             </button>
-                                        )
-                                        :
-                                        (
-                                            <>
-                                                <button
-                                                    type='button'
-                                                    className='btn btn-md btn-outline-primary bg-gradient shadow-hover mx-2'
-                                                    onClick={handleEditCategory}
-                                                >
-                                                    Guardar
-                                                </button>
-                                                <button
-                                                    type='button'
-                                                    className='btn btn-md btn-secondary bg-gradient shadow-hover'
-                                                    onClick={() => setShowEdit({ ...showEdit, show: false })}
-                                                >
-                                                    Cancelar
-                                                </button>
-                                            </>
-                                        )
-                                }
-                            </div>
-
-                        </form>
-                    </div>
-
-
-                    {/* LISTADO CATEGORÍAS EXISTENTES */}
-                    <div className='col'>
-                        <h5 className="text-center font-bold">EXISTENTES</h5>
-                        <div className=''>
-                            <ul className='list-group ouverflow'>
-                                {
-                                    (allCategories.length < 1)
-                                        ?
-                                        (
-                                            <li className='p-3 bg-info'>
-                                                <p className='text-center text-light'>No Hay categorías para mostrar </p>
-                                            </li>
-                                        )
-                                        :
-                                        (
-                                            allCategories.map(({ name, _id }) => (
-                                                <li key={_id}
-                                                    className='d-flex justify-content-between align-items-center list-group-item py-3'
-                                                >
-                                                    <p
-                                                        className=''
-                                                        onClick={() => editCategory(_id, name)}
-                                                    >{name}</p>
-                                                    <div>
-                                                        <button
-                                                            className='btn btn-sm btn-danger bg-gradient shadow-hover'
-                                                            onClick={() => deleteCategory(_id)}
-                                                        >
-                                                            Eliminar
-                                                        </button>
-                                                    </div>
-                                                </li>
-                                            ))
-                                        )
-                                }
-                            </ul>
+                                            <button
+                                                type='button'
+                                                className='btn btn-md btn-secondary bg-gradient shadow-hover'
+                                                onClick={() => setShowEdit({ ...showEdit, show: false })}
+                                            >
+                                                <FontAwesomeIcon icon={faXmarkCircle} /> Cancelar
+                                            </button>
+                                        </>
+                                    )
+                            }
                         </div>
+                    </form>
+                </div>
+
+
+                {/* COLUMNA 2/2 LISTADO CATEGORÍAS EXISTENTES */}
+                <div className='col  px-4 border'>
+                    <h5 className="text-center font-bold py-2">EXISTENTES</h5>
+                    <div className=''>
+                        <ul className='list-group ouverflow'>
+                            {
+                                (allCategories.length < 1)
+                                    ?
+                                    (
+                                        <li className='p-3'>
+                                            <p className='text-center text-light'>No Hay categorías para mostrar </p>
+                                        </li>
+                                    )
+                                    :
+                                    (
+                                        allCategories.map(({ name, _id }) => (
+                                            <li key={_id}
+                                                className='d-flex justify-content-between align-items-center list-group-item py-3'
+                                            >
+                                                <p
+                                                    className=''
+                                                    onClick={() => editCategory(_id, name)}
+                                                >{name}</p>
+                                                <div>
+                                                    <button
+                                                        className='btn btn-md btn-danger bg-gradient shadow-hover'
+                                                        onClick={() => deleteCategory(_id)}
+                                                    >
+                                                        <FontAwesomeIcon icon={faTrashAlt} />
+                                                    </button>
+                                                </div>
+                                            </li>
+                                        ))
+                                    )
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
+
         </>
     )
 }

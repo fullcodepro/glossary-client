@@ -88,19 +88,16 @@ export const EditGlossaryScreen = () => {
   };
 
   return (
-    <div className='container'>
-      <div className='row mt-4'>
-        <div className='col'>
-          <h1 className='text-center text-light bg-dark bg-gradient shadow-hover rounded p-2'>
-            Editar palabra
+    <>
+      <div className='row d-flex mx-auto justify-content-center mt-5'>
+        <div className='col-7 col-lg-10 col-sm-12 col-md-9 mx-auto shadow pt-2'>
+          <h1 className='text-center text-light bg-dark bg-gradient shadow-hover rounded py-2'>
+            EDITAR PALABRA
           </h1>
-        </div>
-      </div>
-      <div className='row'>
-        <div className='col'>
+        
           <form
             onSubmit={handleSubmit}
-            className='pt-3'
+            className=''
           >
             {/* CATEGORIA */}
             <div className="mb-3">
@@ -162,6 +159,6 @@ export const EditGlossaryScreen = () => {
           </form>
         </div>
       </div>
-    </div>
+    </>
   )
 }

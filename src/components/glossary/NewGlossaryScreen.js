@@ -80,82 +80,81 @@ export const NewGlossaryScreen = () => {
   };
 
   return (
-    <div className='container mt-5'>
-      <div className='row'>
-        <div className='col-6 mx-auto shadow pt-2'>
-          <h1 className='text-center text-light bg-dark bg-gradient shadow-hover rounded p-2'>
-            Nueva Palabra
-          </h1>
-      
-          <form
-            onSubmit={handleSubmit}
-            className='pt-3'
-          >
+
+    <div className='row d-flex mx-auto justify-content-center mt-5'>
+      <div className='col-7 col-lg-10 col-sm-12 col-md-9 mx-auto shadow pt-2'>
+        <h1 className='text-center text-light bg-dark bg-gradient shadow-hover rounded py-2'>
+          AÑADIR NUEVO CONCEPTO
+        </h1>
+
+        <form
+          onSubmit={handleSubmit}
+          className='pt-3'
+        >
 
 
-            <div className="mb-3">
-              <label htmlFor="disabledSelect" className="form-label">Seleccione una categoría</label>
-              <select
-                id="disabledSelect"
-                className="form-select"
-                name="categoryId"
-                value={categoryId}
-                onChange={handleInputChange}
-              >
-                <option value={(Math.floor(Math.random() * (1000000, 1) - 1)).toString()}>Seleccione una opcion</option>
-                {
-                  (categories?.length > 0) &&
-                  categories.map(category => (
-                    <option
-                      key={category._id}
-                      value={category._id}
-                    >
-                      {category.name}
-                    </option>
-                  ))
-                }
-              </select>
+          <div className="mb-3">
+            <label htmlFor="disabledSelect" className="form-label">Seleccione una categoría</label>
+            <select
+              id="disabledSelect"
+              className="form-select"
+              name="categoryId"
+              value={categoryId}
+              onChange={handleInputChange}
+            >
+              <option value={(Math.floor(Math.random() * (1000000, 1) - 1)).toString()}>Seleccione una opcion</option>
+              {
+                (categories?.length > 0) &&
+                categories.map(category => (
+                  <option
+                    key={category._id}
+                    value={category._id}
+                  >
+                    {category.name}
+                  </option>
+                ))
+              }
+            </select>
 
-            </div>
+          </div>
 
 
-            <div className="mb-3">
-              <label htmlFor="exampleFormControlInput1" className="form-label">Palabra:</label>
-              <input
-                type="text"
-                className="form-control"
-                autoComplete='off'
-                id="exampleFormControlInput1"
-                placeholder="Ej: cibersecurity"
-                name='wordName'
-                value={wordName}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="exampleFormControlTextarea1" className="form-label">Definición:</label>
-              <textarea
-                className="form-control"
-                placeholder='200 caracteres máximo'
-                autoComplete='off'
-                id="exampleFormControlTextarea1"
-                rows="3"
-                maxLength={200}
-                name='definition'
-                value={definition}
-                onChange={handleInputChange}
-              ></textarea>
-            </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className="form-label">Palabra:</label>
+            <input
+              type="text"
+              className="form-control"
+              autoComplete='off'
+              id="exampleFormControlInput1"
+              placeholder="Ej: cibersecurity"
+              name='wordName'
+              value={wordName}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlTextarea1" className="form-label">Definición:</label>
+            <textarea
+              className="form-control"
+              placeholder='200 caracteres máximo'
+              autoComplete='off'
+              id="exampleFormControlTextarea1"
+              rows="3"
+              maxLength={200}
+              name='definition'
+              value={definition}
+              onChange={handleInputChange}
+            ></textarea>
+          </div>
 
-            <div className='input-group mb-3 d-flex'>
-              <button
-                className='btn btn-md btn-success shadow-hover mx-2'
-              >
-                Guardar
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className='input-group mb-3 d-flex'>
+            <button
+              className='btn btn-md btn-success shadow-hover mx-2'
+            >
+              Guardar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )

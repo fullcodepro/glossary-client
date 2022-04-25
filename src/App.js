@@ -5,6 +5,8 @@ import { authReducer } from './reducers/authReducer';
 import { GlossaryContext } from './components/context/GlossaryContext';
 import { glossaryReducer } from './reducers/glossaryReducer';
 import { glossaryTypes } from './types/glossaryTypes';
+import 'animate.css';
+import { SocketProvider } from './hooks/SocketContext';
 
 
 const init = () => {
@@ -72,21 +74,22 @@ function App() {
 
 
   return (
-
     <AuthContext.Provider value={{
       user, dispatch
     }}>
-      <GlossaryContext.Provider value={{
-        glossary,
-        setInitialState,
-        addWord,
-        editWord,
-        removeWord,
-        clearGlossary
-      }}>
-        <AppRouter />
-      </GlossaryContext.Provider>
-    </AuthContext.Provider>
+        <GlossaryContext.Provider value={{
+          glossary,
+          setInitialState,
+          addWord,
+          editWord,
+          removeWord,
+          clearGlossary
+        }}>
+          <SocketProvider>
+          <AppRouter />
+    </SocketProvider>
+        </GlossaryContext.Provider>
+      </AuthContext.Provider>
   );
 }
 

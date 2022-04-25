@@ -6,6 +6,10 @@ import { URL } from '../../configs/envs';
 import { Search } from './Search';
 
 import backgroundImage from './image_back.jpg';
+import { ChatScreen } from '../chat/ChatScreen';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-regular-svg-icons';
 
 const headers = {
   'Content-Type': 'application/json',
@@ -15,8 +19,10 @@ export const GlossaryHomeScreen = () => {
   const navigate = useNavigate();
   const { glossary, removeWord } = useContext(GlossaryContext)
 
+  // EDITAR PALABRA
   const handleEdit = (id) => navigate(`/edit/?q=${id}`);
 
+  // ELIMINAR PALABRA
   const handleDelete = (id) => {
     (async () => {
 
@@ -27,9 +33,7 @@ export const GlossaryHomeScreen = () => {
       });
 
       const data = await response.json();
-      console.log("> ", data)
       if (!response.ok) {
-        // removeWord(id);
         return alert(data.msg);
       }
       removeWord(id);
@@ -40,36 +44,39 @@ export const GlossaryHomeScreen = () => {
 
 
   return (
-    <div className='container'>
+    <div className=''>
       <div className='row'>
-        <div className='col'>
+        <div className='col col-lg-9 col-md-10 col-sm-12 mx-auto mb-4'>
           <header>
-            <h1 className=' rounded shadow text-dark text-center py-3 mt-3'>GLOSARIO DE TÉRMINOS</h1>
+            <h1 className='rounded text-dark text-center mt-3'>GLOSARIO DE TÉRMINOS</h1>
           </header>
         </div>
+
+
       </div>
       {
         (glossary?.length < 1)
-          ? (
+          ?
+          (
             // <Spinner2 />
             <>
-              <div className=' d-flex mt-5 flex-column justify-content-center align-items-center'>
-                <h3 className='text-center my-3'> Empieza a agregar conceptos!</h3>
+              <div className=' d-flex flex-column justify-content-center align-items-center'>
+                <h3 className='text-center'> Empieza a agregar conceptos!</h3>
                 <img src={backgroundImage} width={600} className="shadow shadow-3 shadow-hover" alt='No hay palabras para mostrar' />
               </div>
             </>
           )
-          // : ( JSON.stringify(words, null, 3) )
-          : (
+          :
+          (
             <>
-              <div className=' row mt-4 mb-3'>
-                <Search glossary={glossary} />
-              </div>
 
               <div className='row'>
-                <div className='col'>
+                <div className='col col-lg-11 col-md-8 col-sm-12 mx-auto'>
+                  <div className=' row mb-3  pb-1'>
+                    <Search glossary={glossary} />
+                  </div>
                   <table className='table table-bordered text-center table-hover border'>
-                    <thead className='bg-dark bg-gradient text-light shadow-hover'>
+                    <thead className='bg-dark text-light shadow-hover'>
                       <tr>
                         <th>Palabra</th>
                         <th>Definición</th>
@@ -95,16 +102,17 @@ export const GlossaryHomeScreen = () => {
                             <td >
                               <div className="d-flex justify-content-center">
                                 <button
-                                  className='btn bg-gradient shadow-hover btn-sm btn-warning mx-1'
+                                  className='btn btn-sm btn-warning mx-1'
                                   onClick={() => handleEdit(word._id)}
                                 >
-                                  Editar
+                                  <FontAwesomeIcon icon={faEdit} />
+
                                 </button>
                                 <button
-                                  className='btn btn-sm bg-gradient shadow-hover btn-danger'
+                                  className='btn btn-sm btn-danger'
                                   onClick={() => handleDelete(word._id)}
                                 >
-                                  Eliminar
+                                  <FontAwesomeIcon icon={faTrash} />
                                 </button>
 
                               </div>
@@ -119,6 +127,7 @@ export const GlossaryHomeScreen = () => {
             </>
           )
       }
+      <ChatScreen />
     </div>
   )
 }

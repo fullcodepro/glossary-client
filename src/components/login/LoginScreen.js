@@ -20,8 +20,10 @@ export const LoginScreen = () => {
     const { active, msg } = error;
 
     const [values, handleInputChange, reset] = useForm({
-        username: 'testuser@gmail.com',
-        password: 'UpKl1900#'
+        username: '',
+        password: ''
+        // username: 'testuser@gmail.com',
+        // password: 'UpKl1900#'
     });
 
     const { username, password } = values;

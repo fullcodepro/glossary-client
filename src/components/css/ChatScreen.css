@@ -1,0 +1,80 @@
+/* FORMULARIO PARA ENVIAR MSJS */
+.chat {
+    position: fixed;
+    width: 300px;
+    height: 250px;
+    line-height: 55px;
+    bottom: 120px;
+    right: 90px;
+    z-index: 99;
+    box-shadow: 0px 1px 10px rgba(red, green, blue, 0.8)
+}
+
+.chat ul {
+    height: 175px;
+}
+
+.box-message {
+    overflow-y: scroll;
+    list-style: none;
+}
+
+
+.btn-wsp {
+    position: fixed;
+    width: 55px;
+    height: 55px;
+    line-height: 55px;
+    bottom: 30px;
+    right: 30px;
+    background: #0df053;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0px 1px 10px rgba(red, green, blue, 0.3);
+    z-index: 100;
+}
+
+.btn-wsp:hover {
+    text-decoration: none;
+    color: #0df053;
+    background: #fff;
+}
+
+.fondo__chat__emisor {
+    background-color: rgb(117, 242, 59);
+    opacity: 0.8;
+}
+
+.fondo__chat__receptor {
+    background-color: rgb(227, 232, 225);
+    opacity: 0.8;
+}
+
+.btn__mostrar__chat {
+    padding: 12px;
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    line-height: 55px;
+    bottom: 30px;
+    right: 90px;
+    background: #1f67da;
+    color: #ffffff;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 0px 1px 10px rgba(red, green, blue, 0.3);
+    z-index: 100;
+    opacity: 0.8;
+}
+
+.btn__mostrar__chat:hover {
+    background: #ffffff;
+    color: #1f67da;
+}
+
+.custom__font {
+    font-size: 16px;
+}
