@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import '../css/ChatScreen.css';
+import '../css/chat.css';
 import '../../ui/icons/whatsapp/css/fontello.css';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,10 +13,7 @@ export const ChatScreen = () => {
     const { socket } = useContext(SocketContext);
 
     const [allMessages, setAllMessages] = useState([]);
-
-    const [newMessage, setNewMessage] = useState({});
-
-    const [hideChat, setHideChat] = useState(false);
+    const [showChat, setShowChat] = useState(false);
 
     const [chat, setChat] = useState({
         message: '',
@@ -24,7 +21,6 @@ export const ChatScreen = () => {
     });
 
     const { message } = chat;
-
 
     useEffect(() => {
         socket.on('current-message', arrMessages => {
@@ -34,23 +30,16 @@ export const ChatScreen = () => {
         return () => socket.off('current-message');
     }, [socket])
 
+    // ESCUCHA NUEVOS MENSAJES
     useEffect(() => {
         socket.on('new-message', message => {
-            setNewMessage(message);
-            setAllMessages(message)
+            setAllMessages(message);
         })
 
         return () => socket.off('new-message');
     }, [socket])
 
-    useEffect(() => {
-        if (!newMessage.user) {
-            return;
-        }
-        setAllMessages([...allMessages, newMessage])
-    }, [newMessage]);
-
-
+    // ALMACENA EN EL ESTADO LOS VALORES INGRESADOS EN EL INPUT 
     const handleInputChange = ({ target }) => {
         setChat({
             ...chat,
@@ -70,34 +59,34 @@ export const ChatScreen = () => {
     }
 
     // OCULTAR CHAT
-    const handleHideChat = (e) => {
-        e.preventDefault();
-        setHideChat(!hideChat);
+    const handleHideChat = () => {
+        if (!showChat) {
+            setShowChat(!showChat);
+            socket.emit('get-messages', messages => {
+                setAllMessages(messages);
+            })
+        }
+        setShowChat(!showChat);
     };
-
-    // console.log(allMessages)
 
     return (
         <>
             {
-                (hideChat)
+                (showChat)
                     ?
                     (
-                        <div className={
-                            ((!hideChat)
-                                && 'chat animate__animated animate__fadeInTopLeft')
-                            || 'chat animate__animated animate__fadeInBottomRight'
+                        <div className={(showChat) && 'chat animate__animated animate__slideInUp'
                         }>
                             <FontAwesomeIcon icon={faXmarkCircle}
                                 onClick={handleHideChat}
                                 className='text-dark h4'
                                 style={{
                                     position: 'absolute',
-                                    top: -17,
-                                    right: -12,
+                                    top: -22,
+                                    right: -18,
                                     zIndex: 1,
                                     cursor: 'pointer',
-                                    opacity: 0.7,
+                                    opacity: 0.6,
                                     hover: { fontSize: "150rem" }
                                 }}
                             />
@@ -107,52 +96,33 @@ export const ChatScreen = () => {
                                         <ul className='box-message border p-1 list-group'>
                                             {
                                                 (allMessages?.length < 1)
-                                                    ? (
-                                                        <li
-                                                            className='bg-primary text-center text-white border'
-                                                        >
+                                                    ?
+                                                    (
+                                                        <li className='bg-primary text-center text-white border'>
                                                             <span className='p-0' style={{ fontWeight: 'bold' }}>Sin mensajes</span>
                                                         </li>
                                                     )
-                                                    : (
+                                                    :
+                                                    (
                                                         allMessages.map((msg) => (
                                                             <li
                                                                 key={msg.id}
                                                                 className={
                                                                     (msg.user === user.firstName)
-                                                                        ? 'multiline mb-1 rounded pe-2 text-end text-dark fondo__chat__emisor custom__font'
-                                                                        : 'multiline mb-1 rounded ps-2 text-dark fondo__chat__receptor custom__font'
+                                                                        ? 'animate__animated fadeInDown mb-1 rounded pe-2 text-end text-dark fondo__chat__emisor custom__font'
+                                                                        : 'animate__animated fadeInDown mb-1 rounded ps-2 text-dark fondo__chat__receptor custom__font'
                                                                 }
                                                             >
-                                                                {/* <b className={
-                                                        (msg.user === user.firstName)
-                                                            ? "text-dark"
-                                                            : "text-dark"}
-                                                    > */}
-
-
                                                                 <p
                                                                     className=''
                                                                     style={{ fontSize: '16px' }}
                                                                 >
-                                                                    <div
-                                                                        aria-multiline
-                                                                    >
-
                                                                     <strong>
-
-                                                                        {
-                                                                            (msg?.user !== user.firstName) && msg.user + ": "
-                                                                        }
+                                                                        {(msg?.user !== user.firstName) && msg.user + ": "}
                                                                     </strong>
-                                                                    {
-                                                                        msg?.message
-                                                                    }
-                                                                    </div>
-
+                                                                    {msg?.message}
                                                                 </p>
                                                             </li>
-
                                                         ))
                                                     )
                                             }

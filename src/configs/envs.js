@@ -1,7 +1,7 @@
 const env = {
     DEV: 'localhost',
     PROD:'',
-    PORT: '6000',
+    PORT: '5500',
 }
 
 const { DEV, PORT } = env;

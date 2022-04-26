@@ -1,4 +1,5 @@
 import React, { createContext } from "react";
+import { URL } from "../../configs/envs";
 import { useSocket } from "../hooks/useSocket";
 export const SocketContext = createContext();
 
@@ -8,7 +9,7 @@ export const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
 
-    const { socket, online } = useSocket('http://localhost:6000');
+    const { socket, online } = useSocket(URL);
 
     return (
         <SocketContext.Provider value={{

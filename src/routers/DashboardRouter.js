@@ -1,28 +1,36 @@
 import React, { useContext } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
-import { AddCategory } from "../components/admin/AddCategory";
-import { EditGlossaryScreen } from "../components/glossary/EditGlossaryScreen";
+
+// Screens
 import { GlossaryHomeScreen } from "../components/glossary/GlossaryHomeScreen";
+import { EditGlossaryScreen } from "../components/glossary/EditGlossaryScreen";
 import { NewGlossaryScreen } from "../components/glossary/NewGlossaryScreen";
+import { UserProfileScreen } from "../components/profile/UserProfileScreen";
+import { CategoriesScreen } from "../components/admin/CategoriesScreen";
+
+// UI
 import { Footer } from "../ui/Footer";
 import { NavBar } from "../ui/NavBar";
 import '../components/css/sidebar-links.css';
+
+// Icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook, faHome, faLink } from "@fortawesome/free-solid-svg-icons";
-import { UserProfileScreen } from "../components/profile/UserProfileScreen";
 import { SocketContext } from "../hooks/SocketContext";
 
 export const DashboardRouter = () => {
+  
+  // Se obtiene la información para pintar el estado online 
   const { online } = useContext(SocketContext);
 
 
   return (
     <>
       <NavBar />
-      <div className="row vh-100">
+      <div className="row my-1 vh-100">
 
-        {/* COL 1 - BARRA LATERAL */}
-        <div className='col-3 col-lg-2 border col-md-4 col-sm-12 col-lg-2 text-center sidebar rounded p-0'>
+        {/* COL N°1 - BARRA LATERAL */}
+        <div className='col-3 col-lg-3 border col-md-4 col-sm-12 col-lg-2 text-center sidebar rounded p-0'>
           <div className="bg-primary text-light mb-4 py-2 rounded w-100">
 
             <div className="bg-dark border"
@@ -33,8 +41,7 @@ export const DashboardRouter = () => {
               </div>
             </div>
 
-
-
+          {/* ESTADO ONLINE */}
           </div>
             <p>
               <strong>Estado: </strong>
@@ -48,8 +55,7 @@ export const DashboardRouter = () => {
           <ul className="navbar-nav">
 
             <NavLink
-              // className="ligt-group-item p-2 mb-3 w-100 sidebar-link rounded"
-              className={({ isActive }) => `text-dark nav-link nav-item w-100 sidebar-link rounded mb-1 ${(isActive && 'active selected-item')}`}
+              className={({ isActive }) => `text-dark nav-link nav-item w-100 sidebar-link rounded ${(isActive && 'active selected-item')}`}
               to="/"
             >
               <FontAwesomeIcon icon={faHome} /> Inicio
@@ -57,7 +63,7 @@ export const DashboardRouter = () => {
 
 
             <NavLink
-              className={({ isActive }) => `text-dark nav-link nav-item w-100 sidebar-link rounded mb-1 ${(isActive && 'active selected-item')}`}
+              className={({ isActive }) => `text-dark nav-link nav-item w-100 sidebar-link rounded ${(isActive && 'active selected-item')}`}
 
               to="/category/add"
             >
@@ -65,44 +71,35 @@ export const DashboardRouter = () => {
             </NavLink>
 
             <NavLink
-              className={({ isActive }) => `text-dark nav-link nav-item w-100 sidebar-link rounded mb-1 ${(isActive && 'active selected-item')}`}
+              className={({ isActive }) => `text-dark nav-link nav-item w-100 sidebar-link rounded ${(isActive && 'active selected-item')}`}
 
               to="/home"
             >
               <FontAwesomeIcon icon={faLink} /> Item
             </NavLink>
-
-
           </ul>
-
-
-
         </div>
 
-        {/* COLUMNA 2 - MAIN CONTENT */}
+
+
+        {/* COLUMNA N°2 - MAIN CONTENT */}
         <div className='col'>
           <Routes>
             <Route path="/home" element={<GlossaryHomeScreen />} />
             <Route path="/new" element={<NewGlossaryScreen />} />
             <Route path="/edit" element={<EditGlossaryScreen />} />
-            <Route path="/category/add" element={<AddCategory />} />
+            <Route path="/category/add" element={<CategoriesScreen />} />
             <Route path="/user/profile/:id" element={<UserProfileScreen />} />
-
-
-            {/* <Route path="/edit/:id" element={<EditarInventarioScreen />} /> */}
 
             <Route path="/" element={<GlossaryHomeScreen />} />
           </Routes>
-
-
         </div>
       </div>
 
 
       {/* SEGUNDA FILA - FOOTER */}
       <div className="row bg-dark rounded">
-
-        <div className='col'>
+        <div className='col w-100'>
           <Footer />
         </div>
       </div>

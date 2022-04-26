@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from '@fortawesome/free-solid-svg-icons'
 // import { useNavigate } from 'react-router-dom';
-import '../../components/css/AddCategory.css';
+import '../../components/css/category_screen.css';
 import { faTrashAlt, faXmarkCircle } from '@fortawesome/free-regular-svg-icons';
+import { URL } from '../../configs/envs';
 
 
-export const AddCategory = () => {
+export const CategoriesScreen = () => {
 
     // const navigate = useNavigate();
 
@@ -29,7 +30,7 @@ export const AddCategory = () => {
     useEffect(() => {
         (
             async () => {
-                const response = await fetch('http://127.0.0.1:6000/api/category/', {
+                const response = await fetch(`${URL}/api/category/`, {
                     'Content-Type': 'application/json',
                     headers: {
                         'authorization': localStorage.getItem('token'),
@@ -62,7 +63,7 @@ export const AddCategory = () => {
             return alert('No se puede crear categoría sin nombre')
         }
 
-        const response = await fetch('http://127.0.0.1:6000/api/category', {
+        const response = await fetch(`${URL}/api/category`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,7 +91,7 @@ export const AddCategory = () => {
             return alert("No hay id en el botón")
         }
 
-        const response = await fetch(`http://127.0.0.1:6000/api/category/${id}`, {
+        const response = await fetch(`${URL}/api/category/${id}`, {
             method: 'DELETE',
             'Content-Type': 'application/json',
             headers: {
@@ -128,7 +129,7 @@ export const AddCategory = () => {
     const handleEditCategory = async (e) => {
 
         e.preventDefault();
-        const response = await fetch(`http://127.0.0.1:6000/api/category/${showEdit.id}`, {
+        const response = await fetch(`${URL}/api/category/${showEdit.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -240,7 +241,9 @@ export const AddCategory = () => {
                                                 <p
                                                     className=''
                                                     onClick={() => editCategory(_id, name)}
-                                                >{name}</p>
+                                                >
+                                                    {name}
+                                                </p>
                                                 <div>
                                                     <button
                                                         className='btn btn-md btn-danger bg-gradient shadow-hover'

@@ -4,14 +4,14 @@
     width: 300px;
     height: 250px;
     line-height: 55px;
-    bottom: 120px;
+    bottom: 190px;
     right: 90px;
     z-index: 99;
     box-shadow: 0px 1px 10px rgba(red, green, blue, 0.8)
 }
 
 .chat ul {
-    height: 175px;
+    height: 250px;
 }
 
 .box-message {
