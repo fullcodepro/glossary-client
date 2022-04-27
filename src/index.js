@@ -1,12 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+// import App from './App';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
+import { DragAndDrop } from './components/extras/DragAndDrop';
 
 ReactDOM.render(
-    <App />,
+    <DragAndDrop />,
   document.getElementById('root')
 );
 

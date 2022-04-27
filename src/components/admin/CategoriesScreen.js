@@ -20,7 +20,7 @@ export const CategoriesScreen = () => {
     });
     const { name } = category;
 
-    // PERMITE CONTROLAR FORMULARIO PARA EDITAR
+    // PERMITE CONTROLAR CUANDO SE MOUESTRA EL FORMULARIO PARA EDITAR
     const [showEdit, setShowEdit] = useState({
         show: false,
         id: ''
@@ -113,7 +113,7 @@ export const CategoriesScreen = () => {
     };
 
 
-    // MUESTRA LOS CONTROLES PARA EDITAR Y CAPTURA EL ID DE LA CAT QUE SE EDITARÁ
+    // MUESTRA LOS CONTROLES PARA EDITAR Y CAPTURA EL ID DE LA CATEGORÍA QUE SE EDITARÁ
     const editCategory = (id, categoryName) => {
         setCategory({
             ...category,
@@ -221,7 +221,7 @@ export const CategoriesScreen = () => {
 
                 {/* COLUMNA 2/2 LISTADO CATEGORÍAS EXISTENTES */}
                 <div className='col  px-4 border'>
-                    <h5 className="text-center font-bold py-2">EXISTENTES</h5>
+                    <h5 className="text-center py-2">EXISTENTES</h5>
                     <div className=''>
                         <ul className='list-group ouverflow'>
                             {
